@@ -279,9 +279,9 @@ LLM: Llama 3.3 70B
 
 | Member Name | Role | Responsibilities |
 |-------------|------|-----------------|
-| Palakpreet Kaur Bhullar | Leader, Research | Led overall research strategy, designed credibility scoring framework, structured RAG research pipeline, curated datasets (books + financial data), validated qualitative and quantitative alignment, and ensured executive-level report structuring. |
-| Yasir Eqbal | Member, Backend and APIs | Developed backend architecture using Node.js & Express, implemented API endpoints, integrated stock data APIs, built industry-stock mapping logic, implemented credibility scoring engine, handled database schema and vector integration. |
-| Manas Sandhu | Member, Frontend and APIs | Designed and developed React-based frontend UI, implemented query submission and structured report rendering interface, connected frontend to backend APIs, optimized user experience and response visualization. |
+| Palakpreet Kaur Bhullar | Leader | Research |
+| Yasir Eqbal | Member | Backend and APIs|
+| Manas Sandhu | Member | Frontend and APIs |
 
 ---
 
