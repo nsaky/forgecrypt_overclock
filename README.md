@@ -24,22 +24,20 @@ Decision-makers often begin with vague, high-level queries (e.g., “Future of E
 - No automated credibility scoring of sources  
 - No integrated stock-industry analysis mapping 📉  
 - Lack of structured executive-ready outputs  
-- Manual effort in consolidating books, financial data, and web research  
+- Manual effort in consolidating financial data, and web research  
 
 ---
 
 ## 2. Problem Understanding & Approach 🧩
 
 ### Root Cause Analysis  
-- Research data is scattered across articles, financial APIs, books, and reports  
+- Research data is scattered across articles, financial APIs, and reports  
 - No automated industry-level stock clustering  
-- No structured research orchestration pipeline  
-- LLMs alone cannot handle large datasets without RAG architecture  
+- No structured research orchestration pipeline   
 
 ### Solution Strategy  
 Develop a Research-Orchestrated AI Engine using:  
-- Search APIs for discovery 🔎  
-- RAG (Retrieval-Augmented Generation) for document intelligence 📚  
+- Search APIs for discovery 🔎   
 - Stock data APIs for industry-level quantitative analysis 📈  
 - Credibility scoring engine for source validation ✅  
 - Structured executive-format response generation  
@@ -58,8 +56,7 @@ Combine:
 - AI summarization + structured output generation  
 
 ### Key Features  
-- 🔎 Intelligent Query Understanding  
-- 📚 Book & Large Document Processing via Chunking + Embeddings  
+- 🔎 Intelligent Query Understanding   
 - 📊 Industry-based Stock Clustering  
 - 📉 Historical Stock Performance Aggregation  
 - 📈 Industry Growth Prediction Logic  
@@ -119,7 +116,7 @@ Insight AI follows a layered architecture:
 ## 5. Database Design 🗄️
 
 ### ER Diagram  
-(Add ER diagram image here)
+(Will Add ER diagram image here)
 
 ### ER Diagram Description  
 Entities include:  
@@ -130,8 +127,6 @@ Entities include:
 - Industry Clusters  
 - Stocks  
 - Historical Stock Data  
-- Processed Documents  
-- Embeddings  
 
 Relationships:  
 - One user → multiple queries  
@@ -174,13 +169,13 @@ To combine qualitative research with quantitative financial signals for multi-di
 ## 7. Model Selected 🤖
 
 ### Model Name  
-LLM (GPT-class model) with RAG Architecture  
+LLM: Llama 3.3 70B
 
 ### Selection Reasoning  
 - Strong reasoning capability  
 - Structured output generation  
-- Compatible with vector database retrieval  
 - Supports multi-dimensional summarization  
+- Has very large context window
 
 ### Alternatives Considered  
 - Pure search-based summarization  
@@ -205,12 +200,9 @@ LLM (GPT-class model) with RAG Architecture
 
 ### ML/AI  
 - LLM API  
-- Vector Database (for embeddings)  
-- RAG Pipeline  
 
 ### Database  
 - Firebase / NoSQL Database 🔥  
-- Vector Database  
 
 ### Deployment  
 - Cloud Deployment (e.g., Vercel / AWS) ☁️  
@@ -219,11 +211,7 @@ LLM (GPT-class model) with RAG Architecture
 
 ## 9. API Documentation & Testing 🧪
 
-### API Endpoints List  
-- Endpoint 1: `/analyze-query`  
-- Endpoint 2: `/get-industry-stocks`  
-- Endpoint 3: `/generate-report`  
-
+### NA
 
 
 ---
@@ -247,17 +235,12 @@ LLM (GPT-class model) with RAG Architecture
   - Query input UI  
   - Report display interface  
 
-### Checkpoint 4: Model Training  
-- Deliverables:  
-  - Embedding generation  
-  - RAG pipeline setup  
-
-### Checkpoint 5: Model Integration  
+### Checkpoint 4: Model Integration  
 - Deliverables:  
   - LLM integration  
   - Structured output formatting  
 
-### Checkpoint 6: Deployment  
+### Checkpoint 5: Deployment  
 - Deliverables:  
   - Cloud deployment  
   - End-to-end testing  
@@ -270,9 +253,8 @@ LLM (GPT-class model) with RAG Architecture
 2. System classifies domain & industry  
 3. Related stocks identified  
 4. Historical stock data retrieved & aggregated  
-5. Relevant documents retrieved via RAG  
-6. Credibility scoring applied  
-7. LLM generates structured executive report  
+5. Credibility scoring applied  
+6. LLM generates structured executive report  
 
 ---
 
@@ -321,7 +303,7 @@ LLM (GPT-class model) with RAG Architecture
 
 - Dependent on third-party APIs  
 - Forecasting accuracy varies with historical data quality  
-- LLM hallucination risk (mitigated via RAG + credibility scoring)  
+- LLM hallucination risk (eg: credibility scoring)  
 
 ---
 
