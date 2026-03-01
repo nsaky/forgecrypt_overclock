@@ -107,7 +107,8 @@ function App() {
     }, 4000);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/research', { query: combinedQuery });
+      const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://forgecrypt-overclock.onrender.com';
+      const response = await axios.post(`${API_URL}/api/research`, { query: combinedQuery });
       clearInterval(stepInterval);
       setReport(response.data);
       setHistory(prev => [{ id: response.data.query_id, query: query.trim(), date: new Date().toLocaleTimeString() }, ...prev]);
