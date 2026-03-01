@@ -118,9 +118,6 @@ User → Frontend → Backend → LLM Orchestration Engine → Financial API Lay
 
 ## 5. Database Design 🗄️
 
-### ER Diagram  
-(Add ER diagram image here)
-
 ### ER Diagram Description  
 Entities include:  
 - Users  
@@ -275,10 +272,9 @@ LLM: Llama 3.3 70B
 ---
 
 ## 12. Demo & Video 🎥
-
-- Live Demo Link: 
-- Drive Link (Video & PPT): https://drive.google.com/drive/folders/1S3DRqqgmLkHoFzBXgmPpT7hLFDRxQVfl
-- GitHub Repository: https://github.com/nsaky/forgecrypt_overclock
+- [Live Demo Link]()
+- [Drive Link (Video & PPT)](https://drive.google.com/drive/folders/1S3DRqqgmLkHoFzBXgmPpT7hLFDRxQVfl)
+- [GitHub Repository](https://github.com/nsaky/forgecrypt_overclock)
 
 ---
 
