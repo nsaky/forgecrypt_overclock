@@ -342,8 +342,21 @@ CONTENT BLOCK TYPES:
 - List: {{"type": "list", "content": "Point 1\\nPoint 2\\nPoint 3"}}
 - Table: {{"type": "table", "title": "Table Title", "headers": ["Col1", "Col2"], "rows": [["val1", "val2"]]}}
   → Use for sections with content_type "table". Include 4-8 rows of REAL data.
-- Chart: {{"type": "chart", "chart_type": "bar|line|pie", "title": "Chart Title", "labels": ["L1","L2"], "datasets": [{{"label": "Name", "data": [10,20], "color": "#4DA6FF"}}]}}
-  → Use for sections with content_type "chart". Include 4-8 data points. Data must be REAL numbers from evidence.
+- Chart (bar/line): {{"type": "chart", "chart_type": "bar|line", "title": "Chart Title", "labels": ["L1","L2"], "datasets": [{{"label": "Name", "data": [10,20], "color": "#4DA6FF"}}]}}
+  → Use "bar" for category comparisons, "line" for time-series trends. Include 4-8 data points.
+- Pie Chart: {{"type": "chart", "chart_type": "pie", "title": "Market Share Distribution", "labels": ["Seg1","Seg2","Seg3"], "datasets": [{{"label": "Share", "data": [40,35,25], "color": "#4DA6FF"}}]}}
+  → Use for market share, distribution, or percentage breakdowns. Data values should be real percentages or proportions.
+- Radar Chart: {{"type": "chart", "chart_type": "radar", "title": "Competitive Positioning", "labels": ["Quality","Price","Innovation","Reach","Brand"], "datasets": [{{"label": "Company A", "data": [80,60,90,70,85], "color": "#4DA6FF"}}, {{"label": "Company B", "data": [70,80,60,90,65], "color": "#A78BFA"}}]}}
+  → Use for multi-dimensional comparisons (e.g., company strengths, feature comparison across dimensions).
+- Comparison/Venn: {{"type": "comparison", "title": "Key Differences", "items": [{{"label": "Traditional Retail", "points": ["Physical stores", "High overhead"]}}, {{"label": "E-Commerce", "points": ["Online-first", "Low overhead"]}}], "overlap": "Both serve consumers"}}
+  → Use for comparing two concepts, business models, or strategies side-by-side.
+
+VISUALIZATION GUIDELINES:
+- Use pie charts for market share or distribution data
+- Use radar charts when comparing multiple entities across 4+ dimensions
+- Use comparison/venn for "vs" or "differences between" topics
+- Every chart/table must contain REAL data from the evidence, never made-up numbers
+- Mix visualization types across sections for a richer report
 
 For "mixed" sections, combine paragraphs with a table OR chart.
 For "text" sections, use 2-4 substantial paragraphs with citations.
