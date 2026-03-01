@@ -1,0 +1,66 @@
+# --- General ---
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+*.swp
+*.swo
+
+# --- Environments ---
+.env
+.env.local
+.env.*.local
+*.env
+auth.json
+firebase-adminsdk.json
+
+# --- Editors/IDEs ---
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+*.sublime-project
+*.sublime-workspace
+.idea/
+*.iws
+
+# --- Node (Frontend) ---
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/build/
+**/coverage/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# --- Python (Backend) ---
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.so
+**/.Python
+**/env/
+**/venv/
+**/ENV/
+**/env.bak/
+**/venv.bak/
+**/pip-log.txt
+**/pip-delete-this-directory.txt
+**/.tox/
+**/.nox/
+**/.coverage
+**/.coverage.*
+**/.cache
+**/nosetests.xml
+**/coverage.xml
+**/*.mo
+**/*.pot
+**/*.log
+**/db.sqlite3
+**/instance/
+**/.pytest_cache/
+**/.mypy_cache/

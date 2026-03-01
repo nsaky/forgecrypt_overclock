@@ -313,3 +313,147 @@ LLM: Llama 3.3 70B
 - Reduced manual research time  
 - Improved credibility & financial grounding in strategic planning  
 - Democratization of deep research intelligence  
+# 🧠 Insight AI — Autonomous Research Intelligence Engine
+
+> A production-grade, full-stack AI research engine that decomposes complex queries, retrieves live web data, scores source credibility, and generates structured McKinsey-style reports with financial intelligence.
+
+---
+
+## 🚀 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 19, Vite, Tailwind CSS 4, Recharts, Axios |
+| **Backend** | Python, FastAPI, Uvicorn, AsyncOpenAI |
+| **LLM** | Groq (`llama-3.1-8b-instant`) or OpenAI GPT-4o |
+| **Web Search** | SerpAPI (Google Search) |
+| **Financial Data** | Financial Modeling Prep (FMP) |
+| **Database/Logging** | Firebase Firestore |
+
+---
+
+## ⚙️ Local Setup Guide
+
+### Prerequisites
+- **Python 3.10+** — [Download](https://www.python.org/downloads/)
+- **Node.js 18+** — [Download](https://nodejs.org/)
+- **Git** — [Download](https://git-scm.com/)
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/esachdev28/insight_ai_2.git
+cd insight_ai_2
+```
+
+### Step 2: Get Your API Keys
+
+You will need the following API keys. All are free-tier available:
+
+| Key | Get it from |
+|---|---|
+| `GROQ_API_KEY` | [console.groq.com/keys](https://console.groq.com/keys) |
+| `SERPAPI_API_KEY` | [serpapi.com/manage-api-key](https://serpapi.com/manage-api-key) |
+| `FMP_API_KEY` | [financialmodelingprep.com/developer](https://financialmodelingprep.com/developer/docs/) |
+| `FIREBASE_SERVICE_ACCOUNT_JSON` | Firebase Console → Project Settings → Service Accounts → **Generate new private key** (JSON file) |
+
+### Step 3: Configure Environment Variables
+
+Copy the example `.env` file and fill in your keys:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` in a text editor and replace the placeholder values with your actual keys.
+
+For **Firebase**, open the downloaded service account JSON file, copy the **entire contents**, and paste it as a single-line JSON string as the value of `FIREBASE_SERVICE_ACCOUNT_JSON`. Example:
+
+```
+FIREBASE_SERVICE_ACCOUNT_JSON={"type": "service_account", "project_id": "my-project", ...}
+```
+
+### Step 4: Set Up and Start the Backend
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Create a Python virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+# venv\Scripts\activate
+
+# Install all dependencies
+pip install -r requirements.txt
+
+# Start the backend server (from the backend/ directory)
+python3 main.py
+```
+
+The backend API will be running at: **`http://localhost:8000`**
+
+You can verify it's working by visiting `http://localhost:8000` in your browser — you should see:
+```json
+{"status": "Research Engine is Online."}
+```
+
+### Step 5: Set Up and Start the Frontend
+
+Open a **new terminal window** and run:
+
+```bash
+# Navigate to frontend directory
+cd insight_ai_2/frontend
+
+# Install Node.js dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+The frontend will be running at: **`http://localhost:5173`**
+
+### Step 6: Start Researching! 🎉
+
+Open **`http://localhost:5173`** in your browser. Try a query like:
+
+> *"Deep dive into Nvidia's competitive moat and future revenue outlook"*
+
+---
+
+## 📂 Project Structure
+
+```
+insight_ai_2/
+├── frontend/                  # React + Vite Application
+│   ├── src/                   # Components & App Logic
+│   ├── package.json           # Frontend dependencies
+│   └── vite.config.js
+├── backend/                   # FastAPI Application
+│   ├── main.py                # API entry point & endpoints
+│   ├── requirements.txt       # Python dependencies ✅
+│   ├── models/
+│   │   └── schemas.py         # Pydantic data models
+│   └── services/              # Core Business Logic
+│       ├── orchestrator.py    # 10-Layer Pipeline Coordinator
+│       ├── llm_service.py     # Groq / OpenAI Abstraction
+│       ├── search_service.py  # SerpAPI Web Search
+│       ├── firebase_logger.py # Firestore Integration
+│       ├── financial_service.py # FMP Stock Data
+│       └── credibility.py     # Source Credibility Scoring
+├── .env.example               # Template for environment variables ✅
+├── .gitignore                 # Protects secrets & build artifacts ✅
+└── README.md
+```
+
+---
+
+## 🔒 Security Note
+
+Your `.env` file is **gitignored** and will never be committed. Never share your `.env` file publicly. Only the `.env.example` (with placeholder values) is committed to the repository.
