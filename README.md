@@ -272,7 +272,7 @@ LLM: Llama 3.3 70B
 ---
 
 ## 12. Demo & Video 🎥
-- [Live Demo Link]()
+- [Live Demo Link](https://insight-ai-forgecrypt.vercel.app/)
 - [Drive Link (Video & PPT)](https://drive.google.com/drive/folders/1S3DRqqgmLkHoFzBXgmPpT7hLFDRxQVfl)
 - [GitHub Repository](https://github.com/nsaky/forgecrypt_overclock)
 
