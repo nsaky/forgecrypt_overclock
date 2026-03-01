@@ -276,9 +276,9 @@ LLM: Llama 3.3 70B
 
 ## 12. Demo & Video 🎥
 
-- Live Demo Link:  
-- Demo Video Link:  
-- GitHub Repository:  
+- Live Demo Link: 
+- Drive Link (Video & PPT): https://drive.google.com/drive/folders/1S3DRqqgmLkHoFzBXgmPpT7hLFDRxQVfl
+- GitHub Repository: https://github.com/nsaky/forgecrypt_overclock
 
 ---
 
