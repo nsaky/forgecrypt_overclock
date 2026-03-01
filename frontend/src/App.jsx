@@ -53,8 +53,8 @@ function CustomDropdown({ options, value, onChange, label, icon: Icon }) {
               type="button"
               onClick={() => { onChange(opt); setOpen(false); }}
               className={`w-full text-left px-4 py-2.5 text-sm flex items-center space-x-2 transition-colors ${opt === value
-                  ? 'bg-primaryLight text-primary font-medium'
-                  : 'text-textPrimary hover:bg-gray-50'
+                ? 'bg-primaryLight text-primary font-medium'
+                : 'text-textPrimary hover:bg-gray-50'
                 }`}
             >
               {opt === value && <span className="text-primary font-bold">✓</span>}
@@ -131,6 +131,12 @@ function App() {
           <h1 className="text-xl font-bold tracking-tight text-textPrimary">Insight AI</h1>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
+          <button
+            onClick={() => { setReport(null); setError(null); setLoading(false); }}
+            className="w-full mb-4 flex items-center justify-center space-x-2 bg-primary hover:bg-primaryHover text-white text-sm font-semibold py-2.5 rounded-xl transition-colors shadow-card"
+          >
+            <span>+ New Research</span>
+          </button>
           <div className="text-[11px] font-bold text-textMuted uppercase tracking-[0.12em] mb-4">Query History</div>
           {history.length === 0 ? (
             <div className="text-sm text-textMuted italic">No history yet</div>
@@ -302,12 +308,12 @@ function App() {
 
                   return (
                     <div key={step.id} className={`flex items-center space-x-4 p-4 rounded-2xl border transition-all duration-500 ${isActive ? 'bg-primaryLight border-primary/20 scale-[1.02] shadow-card' :
-                        isPast ? 'bg-green-50 border-green-200' :
-                          'bg-white border-border opacity-50'
+                      isPast ? 'bg-green-50 border-green-200' :
+                        'bg-white border-border opacity-50'
                       }`}>
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isPast ? 'bg-green-100 text-success' :
-                          isActive ? 'bg-primary/10 text-primary' :
-                            'bg-gray-100 text-textMuted'
+                        isActive ? 'bg-primary/10 text-primary' :
+                          'bg-gray-100 text-textMuted'
                         }`}>
                         {isPast ? <span className="text-sm font-bold">✓</span> : <Icon size={20} />}
                       </div>
