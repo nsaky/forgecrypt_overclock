@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { Search, Loader2, FileText, Activity, Layers, Database } from 'lucide-react';
+import { Search, Loader2, FileText, Activity, Layers, Database, User, Globe, FileText as NotesIcon, ChevronDown } from 'lucide-react';
 import ReportViewer from './components/ReportViewer';
 
 const STEPS = [
@@ -11,39 +11,128 @@ const STEPS = [
   { id: 'synth', label: 'Synthesizing Report', icon: Layers }
 ];
 
+const ROLE_OPTIONS = ['Analyst', 'Student', 'Product Manager', 'Researcher', 'Executive', 'Investor'];
+const SCALE_OPTIONS = ['Global', 'Country', 'Regional', 'Local'];
+const EXAMPLE_QUERIES = [
+  'Electric Vehicle Industry Analysis',
+  'AI in Healthcare Market Outlook',
+  'Renewable Energy Investment Trends'
+];
+
+/* ───────────────────────────── Custom Dropdown ───────────────────────────── */
+function CustomDropdown({ options, value, onChange, label, icon: Icon }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div className="flex-1 min-w-0" ref={ref}>
+      <label className="flex items-center space-x-2 text-sm font-semibold text-gray-200 mb-2">
+        <Icon size={16} className="text-bohriumPrimary" />
+        <span>{label}</span>
+      </label>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between bg-[#1E2128] border border-[#2D323B] rounded-xl px-4 py-3 text-sm text-white hover:border-[#3D424B] focus:outline-none focus:border-bohriumPrimary transition-colors"
+        >
+          <span>{value}</span>
+          <ChevronDown
+            size={16}
+            className={`text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          />
+        </button>
+
+        {/* Dropdown panel */}
+        <div
+          className={`absolute z-50 mt-1 w-full bg-[#1A1D24] border border-[#2D323B] rounded-xl shadow-2xl overflow-hidden transition-all duration-200 origin-top ${open ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'
+            }`}
+        >
+          {options.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => { onChange(opt); setOpen(false); }}
+              className={`w-full text-left px-4 py-2.5 text-sm flex items-center space-x-2 transition-colors ${opt === value
+                  ? 'bg-blue-600/20 text-bohriumPrimary'
+                  : 'text-gray-300 hover:bg-blue-600/10 hover:text-white'
+                }`}
+            >
+              {opt === value && <span className="text-bohriumPrimary">✓</span>}
+              <span className={opt === value ? '' : 'ml-5'}>{opt}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+/* ──────────────────────────────── Main App ──────────────────────────────── */
 function App() {
   const [query, setQuery] = useState('');
+  const [objective, setObjective] = useState('');
+  const [role, setRole] = useState('Analyst');
+  const [scale, setScale] = useState('Global');
+  const [notes, setNotes] = useState('');
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [report, setReport] = useState(null);
   const [error, setError] = useState(null);
   const [history, setHistory] = useState([]);
 
+  // Combine all fields into a single query string
+  const buildQuery = () => {
+    let combined = query.trim();
+    const parts = [];
+    if (objective.trim()) parts.push(`Objective: ${objective.trim()}`);
+    if (role) parts.push(`Role: ${role}`);
+    if (scale) parts.push(`Scale: ${scale}`);
+    if (notes.trim()) parts.push(`Additional context: ${notes.trim()}`);
+    if (parts.length > 0) {
+      combined += `\n\n${parts.join('\n')}`;
+    }
+    return combined;
+  };
+
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) return;
+
+    const combinedQuery = buildQuery();
 
     setLoading(true);
     setReport(null);
     setError(null);
     setActiveStep(0);
 
-    // Simulate steps for UI feel while waiting for long polling
     const stepInterval = setInterval(() => {
       setActiveStep(prev => prev < 4 ? prev + 1 : prev);
     }, 4000);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/research', { query });
+      const response = await axios.post('http://localhost:8000/api/research', { query: combinedQuery });
       clearInterval(stepInterval);
       setReport(response.data);
-      setHistory(prev => [{ id: response.data.query_id, query, date: new Date().toLocaleTimeString() }, ...prev]);
+      setHistory(prev => [{ id: response.data.query_id, query: query.trim(), date: new Date().toLocaleTimeString() }, ...prev]);
     } catch (err) {
       clearInterval(stepInterval);
       setError(err.response?.data?.detail || err.message || 'An error occurred during research.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleExampleClick = (example) => {
+    setQuery(example);
   };
 
   return (
@@ -104,31 +193,119 @@ function App() {
                 </p>
               </div>
 
-              <form onSubmit={handleSearch} className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-                <div className="relative flex items-center bg-bohriumCard border border-bohriumBorder rounded-xl p-2 shadow-2xl transition-all duration-300 focus-within:border-bohriumPrimary focus-within:ring-1 focus-within:ring-bohriumPrimary">
-                  <Search className="ml-3 text-bohriumMuted" size={24} />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="E.g., Deep dive into Nvidia's competitive moat and future revenue outlook"
-                    className="w-full bg-transparent border-none py-4 px-4 text-lg focus:outline-none placeholder-bohriumBorder text-white rounded-xl"
-                    disabled={loading}
-                  />
-                  <button
-                    type="submit"
-                    disabled={loading || !query.trim()}
-                    className="bg-bohriumPrimary hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-lg disabled:opacity-50"
+              <form onSubmit={handleSearch} className="relative group text-left">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative bg-bohriumCard border border-bohriumBorder rounded-2xl shadow-2xl transition-all duration-300 focus-within:border-bohriumPrimary focus-within:ring-1 focus-within:ring-bohriumPrimary overflow-hidden">
+
+                  {/* Main query input */}
+                  <div className="flex items-center p-2">
+                    <Search className="ml-3 text-bohriumMuted flex-shrink-0" size={24} />
+                    <input
+                      type="text"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="E.g., Deep dive into Nvidia's competitive moat and future revenue outlook"
+                      className="w-full bg-transparent border-none py-4 px-4 text-lg focus:outline-none placeholder-bohriumBorder text-white"
+                      disabled={loading}
+                    />
+                    <button
+                      type="submit"
+                      disabled={loading || !query.trim()}
+                      className="bg-bohriumPrimary hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-lg disabled:opacity-50 flex-shrink-0 mr-1"
+                    >
+                      Research
+                    </button>
+                  </div>
+
+                  {/* Advanced toggle */}
+                  <div className="px-5 pb-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowAdvanced(!showAdvanced)}
+                      className="flex items-center space-x-1.5 text-xs text-bohriumMuted hover:text-bohriumPrimary transition-colors ml-auto"
+                    >
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${showAdvanced ? 'rotate-180' : ''}`}
+                      />
+                      <span>{showAdvanced ? 'Hide advanced options' : 'Show advanced options'}</span>
+                    </button>
+                  </div>
+
+                  {/* Advanced options panel */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${showAdvanced ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                      }`}
                   >
-                    Research
-                  </button>
+                    <div className="px-5 pb-5 space-y-4 border-t border-bohriumBorder/40 pt-4">
+
+                      {/* Objective */}
+                      <div>
+                        <label className="flex items-center space-x-2 text-sm font-semibold text-gray-200 mb-2">
+                          <div className="w-4 h-4 rounded-full border-2 border-bohriumPrimary flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 rounded-full bg-bohriumPrimary"></div>
+                          </div>
+                          <span>Objective</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={objective}
+                          onChange={(e) => setObjective(e.target.value)}
+                          placeholder="e.g., Market analysis, feasibility study, academic insight..."
+                          className="w-full bg-[#1E2128] border border-[#2D323B] rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-bohriumPrimary transition-colors"
+                        />
+                      </div>
+
+                      {/* Two-column: Role + Scale */}
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <CustomDropdown
+                          options={ROLE_OPTIONS}
+                          value={role}
+                          onChange={setRole}
+                          label="Your Role"
+                          icon={User}
+                        />
+                        <CustomDropdown
+                          options={SCALE_OPTIONS}
+                          value={scale}
+                          onChange={setScale}
+                          label="Scale"
+                          icon={Globe}
+                        />
+                      </div>
+
+                      {/* Additional Notes */}
+                      <div>
+                        <label className="flex items-center space-x-2 text-sm font-semibold text-gray-200 mb-2">
+                          <NotesIcon size={16} className="text-bohriumPrimary" />
+                          <span>Additional Notes</span>
+                        </label>
+                        <textarea
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          placeholder="Optional: restrictions, preferred sources, focus areas..."
+                          rows={3}
+                          className="w-full bg-[#1E2128] border border-[#2D323B] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-bohriumPrimary transition-colors resize-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </form>
 
-              <div className="flex gap-4 justify-center text-sm text-bohriumMuted mt-8">
-                <span className="bg-bohriumCard border border-bohriumBorder px-3 py-1 rounded-full">Bloomberg Terminal UX</span>
-                <span className="bg-bohriumCard border border-bohriumBorder px-3 py-1 rounded-full">Perplexity Architecture</span>
+              {/* Example queries */}
+              <div className="flex flex-wrap gap-3 justify-center text-sm text-bohriumMuted mt-6">
+                <span className="text-gray-500">Try:</span>
+                {EXAMPLE_QUERIES.map((eq) => (
+                  <button
+                    key={eq}
+                    type="button"
+                    onClick={() => handleExampleClick(eq)}
+                    className="bg-bohriumCard border border-bohriumBorder px-4 py-1.5 rounded-full hover:border-bohriumPrimary hover:text-bohriumPrimary transition-colors cursor-pointer"
+                  >
+                    {eq}
+                  </button>
+                ))}
               </div>
             </div>
           )}
@@ -146,10 +323,6 @@ function App() {
                   const Icon = step.icon;
                   const isActive = idx === activeStep;
                   const isPast = idx < activeStep;
-
-                  let displayClass = "text-bohriumBorder";
-                  if (isActive) displayClass = "text-white glow-focus";
-                  if (isPast) displayClass = "text-success";
 
                   return (
                     <div key={step.id} className={`flex items-center space-x-4 transition-all duration-500 ${isActive ? 'scale-105' : 'opacity-60'}`}>
