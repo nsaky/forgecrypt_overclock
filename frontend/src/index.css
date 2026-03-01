@@ -1,48 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
-body {
-  background-color: #0F1115;
-  color: #E2E8F0;
-  font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding: 0;
+* {
+  box-sizing: border-box;
 }
 
+body {
+  background-color: #FAFAFA;
+  color: #1A1A1A;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar — subtle light style */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0F1115;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2D323B;
-  border-radius: 4px;
+  background: #D1D5DB;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4DA6FF;
+  background: #9CA3AF;
 }
 
+/* Focus glow for inputs */
 @keyframes pulse-glow {
   0% {
-    box-shadow: 0 0 0 0 rgba(77, 166, 255, 0.4);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3);
   }
-
   70% {
-    box-shadow: 0 0 0 10px rgba(77, 166, 255, 0);
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
   }
-
   100% {
-    box-shadow: 0 0 0 0 rgba(77, 166, 255, 0);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
   }
 }
 
 .glow-focus:focus-within {
   animation: pulse-glow 2s infinite;
-  border-color: #4DA6FF;
+  border-color: #2563EB;
+}
+
+/* Smooth fade-in-up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
 }
